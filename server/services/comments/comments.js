@@ -38,6 +38,9 @@ async function createComment(request, response) {
  async function getAllCommentsByPostId(request,response){
      try{
         const comments =await  Comments.find({"post": request.params.post})
+        .sort({'created': 'desc'})
+        .populate('createdBy','email') 
+       
         response.json(comments);
      }catch(error){
          response.json(error);

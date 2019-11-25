@@ -14,7 +14,9 @@ async function createPost(request, response) {
             tags:tags,
             createdBy:decoded._id
         });
-        let post = await newPost.save();
+       // let post = await newPost.save()
+        let post = await  Posts.populate(newPost, {path:"createdBy",});
+        // .populate('createdBy','email');
         response.json(post);
     }catch(error){
         response.json( error );
@@ -26,7 +28,9 @@ async function createPost(request, response) {
 // Get all posts
 async function  getPosts(request, response) {  
     try{
-        let posts =await Posts.find().populate('createdBy','email');
+        let posts =await Posts.find()
+        .populate('createdBy','email')
+        .sort('-created');
         response.json(posts); 
 
     }catch(error){
@@ -39,6 +43,8 @@ async function  getPosts(request, response) {
      try{
         let posts =await Posts.findOne({"_id":request.params._id})
         .populate('createdBy',['email','role']);
+        console.log("Get post")
+        console.log(JSON.stringify(posts))
         response.json(posts); 
 
     }catch(error){
@@ -68,8 +74,9 @@ async function  getPosts(request, response) {
  //delete a post
   async function deletePostById(request,response){
     try{
-        await Posts.findByIdAndRemove(request.params._id);
-        response.json("Post deleted successfully");
+      await Posts.findByIdAndRemove(request.params._id);
+   console.log(JSON.stringify(request))
+        response.json( request );
 
        }catch(error){
        response.json(  error );

@@ -15,8 +15,7 @@
         "lodash": "^4.17.11",
         "mongoose": "^5.0.3",
         "morgan": "^1.9.0",
-        "passport": "^l
-        ",
+        "passport": "^0.4.0",
         "passport-jwt": "^3.0.1",
         "serve-favicon": "~2.4.5"
     }

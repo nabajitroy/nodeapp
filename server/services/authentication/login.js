@@ -27,11 +27,18 @@ function loginUser(request, response) {
    // Check if password matches
        user.comparePassword(password, function(error, isMatch) {
                  if (isMatch && !error) {
+//console.log(JSON.stringify(user));
+
                     var token = jwt.sign(user.toJSON(),
-                    db.secret, {expiresIn: 999999999999999});
+                    db.secret, {expiresIn: 10000});
                     return response.json({
                         success: true,
-                        token: 'JWT ' + token        
+                        user:{
+                            id:user._id,
+                            email:user.email,
+                            role:user.role
+                        },
+                        token:  'JWT ' + token        
                     });      
                  }
                  response.send(httpResponse.onAuthenticationFail);

@@ -20,17 +20,20 @@ const httpMessages = {
  }
 // Register new users
 function registerUser(request, response) {  
-    let { email, password } = request.body;
+    let { email,fullname, password } = request.body;
     if (!email || !password) { 
         response.json(httpMessages.onValidationError);  
     } else {
         let newUser = new User({
             email: email,
+            fullname:fullname,
             password: password 
         });
+        
      // Attempt to save the user  
     newUser.save(error => {    
-       if (error) {        
+       if (error) {   
+        console.log(JSON.stringify(newUser));     
            return response.json(httpMessages.onUserSaveError); 
         }     
           response.json(httpMessages.onUserSaveSuccess);  
